@@ -9,31 +9,35 @@ import {
 } from 'iconsax-react-native';
 import AppColors from '../../theme/color';
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ongoing, pending, complated, cancel}) => {
   const tasks = [
     {
       id: 1,
       title: 'Ongoing',
       color: AppColors.ONGOING,
       icon: <ChartCircle size="32" color={AppColors.WHITE} />,
+      count: ongoing,
     },
     {
       id: 2,
       title: 'Pending',
       color: AppColors.PENDING,
       icon: <Clock size="32" color={AppColors.WHITE} />,
+      count: pending,
     },
     {
       id: 3,
       title: 'Complated',
       color: AppColors.COMPLATED,
       icon: <TickCircle size="32" color={AppColors.WHITE} />,
+      count: complated,
     },
     {
       id: 4,
       title: 'Cancel',
       color: AppColors.CANCEL,
       icon: <CloseCircle size="32" color={AppColors.WHITE} />,
+      count: cancel,
     },
   ];
 
@@ -73,7 +77,7 @@ const HeaderComponent = () => {
                 fontWeight: '600',
                 marginTop: 5,
               }}>
-              Task
+              {item.count} Task
             </Text>
           </View>
           <View>

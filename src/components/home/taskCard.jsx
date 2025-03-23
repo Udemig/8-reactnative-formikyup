@@ -1,23 +1,45 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import AppColors from '../../theme/color';
-import {TickCircle} from 'iconsax-react-native';
 import moment from 'moment';
+import {taskValues} from '../../utils/constant';
+import {useNavigation} from '@react-navigation/native';
+import {SCREENS} from '../../utils/routes';
+import {setCategory} from '../../utils/functions';
 
-const TaskCard = () => {
+const TaskCard = ({item}) => {
+  const navigation = useNavigation();
   return (
-    <Pressable>
-      <View>
-        <TickCircle size="32" color={AppColors.CANCEL} />
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate(SCREENS.TASKDETAIL, {item: item})}>
+      <View
+        style={{
+          backgroundColor: taskValues.find(task => task.status === item?.status)
+            ?.color,
+          padding: 3,
+          borderRadius: 5,
+        }}>
+        {taskValues.find(task => task.status === item?.status)?.icon}
+      </View>
+
+      <View style={{flex: 1, marginLeft: 10}}>
+        <Text style={{fontSize: 16, fontWeight: '600', color: 'black'}}>
+          {item.title}
+        </Text>
+        <Text style={{fontSize: 14, fontWeight: '300', color: 'gray'}}>
+          {item.description}
+        </Text>
       </View>
       <View>
-        <Text>title</Text>
-        <Text>description</Text>
+        <Text style={{fontSize: 14, fontWeight: '300', color: 'gray'}}>
+          {moment(item.startDate).format('DD.MM.YYYY')}-
+          {moment(item.endDate).format('DD.MM.YYYY')}
+        </Text>
       </View>
-      <View>
-        <Text>
-          {' '}
-          {moment('16-03-2025', 'DD-MM-YYYY').format('MMMM D, YYYY')}{' '}
+      <View style={{marginLeft: 10}}>
+        <Text style={{fontSize: 14, fontWeight: '300', color: 'gray'}}>
+          {setCategory(item.category)}
         </Text>
       </View>
     </Pressable>
@@ -26,4 +48,14 @@ const TaskCard = () => {
 
 export default TaskCard;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});

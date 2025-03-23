@@ -5,14 +5,15 @@ import uuid from 'react-native-uuid';
 import CustomDatePicker from '../../components/uı/customDatePicker';
 import {taskSchema} from '../../utils/validations';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {status} from '../../utils/constant';
 
 const AddTask = () => {
   const saveTask = async values => {
     try {
-      const savedTasks = await AsyncStorage.getItem('task');
+      const savedTasks = await AsyncStorage.getItem('tasks');
       let myTask = savedTasks ? JSON.parse(savedTasks) : [];
       myTask.push(values);
-      await AsyncStorage.setItem('task', JSON.stringify(myTask));
+      await AsyncStorage.setItem('tasks', JSON.stringify(myTask));
     } catch (error) {
       console.log(error);
     }
@@ -28,6 +29,7 @@ const AddTask = () => {
           startDate: null,
           endDate: null,
           category: null,
+          status: status.ONGOING,
         }}
         validationSchema={taskSchema}
         onSubmit={values => saveTask(values)}>
